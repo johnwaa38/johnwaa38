@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Profile Clock</title>
+  <style>
+    /* Center the clock text on the page for quick visual confirmation */
+    body {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      min-height: 100vh;
+      margin: 0;
+      font-family: 'SF Pro Display', 'Segoe UI', system-ui, -apple-system, sans-serif;
+      background: radial-gradient(circle at 20% 20%, #eef3ff, #cdd9ff);
+    }
+
+    /* Large, readable text for the live time */
+    #clock {
+      font-size: clamp(2.5rem, 5vw + 1rem, 4.5rem);
+      font-weight: 700;
+      color: #1b2a4e;
+      letter-spacing: 0.08em;
+      text-shadow: 0 6px 15px rgba(0, 0, 0, 0.08);
+    }
+  </style>
+</head>
+<body>
+  <div id="clock" aria-live="polite">--:--:--</div>
+
+  <script>
+    // formatTime builds an HH:MM:SS string from a Date instance.
+    function formatTime(date) {
+      const hours = String(date.getHours()).padStart(2, '0');
+      const minutes = String(date.getMinutes()).padStart(2, '0');
+      const seconds = String(date.getSeconds()).padStart(2, '0');
+      return `${hours}:${minutes}:${seconds}`;
+    }
+
+    // updateClock renders the current time into the page and schedules
+    // the next update to keep the clock ticking once per second.
+    function updateClock() {
+      const now = new Date();
+      const clock = document.getElementById('clock');
+      clock.textContent = formatTime(now);
+    }
+
+    // Kick off the clock immediately so the user never sees a stale time.
+    updateClock();
+    // Refresh the display every second to keep the clock accurate.
+    setInterval(updateClock, 1000);
+  </script>
+</body>
+</html>
